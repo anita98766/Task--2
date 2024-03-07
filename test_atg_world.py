@@ -19,5 +19,5 @@ class TestWebsiteLoading(unittest.TestCase):
         # Step 5: Print a log statement indicating that the test passed
         print("Website loaded successfully!")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     unittest.main()
