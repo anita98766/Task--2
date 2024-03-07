@@ -1,10 +1,25 @@
-from flask import Flask
+import http.server
+import socketserver
+from http import HTTPStatus
 
-app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello, world'
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(HTTPStatus.OK)
+        self.end_headers()
+        self.wfile.write(b'Hello world')
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+
+httpd = socketserver.TCPServer(('', 8000), Handler)
+httpd.serve_forever()
+
+
+# python3 server.py
+# 127.0.0.1 - - [11/Apr/2017 11:36:49] "GET / HTTP/1.1" 200 -
+# http :8000
+'''
+HTTP/1.0 200 OK
+Date: Tue, 11 Apr 2017 15:36:49 GMT
+Server: SimpleHTTP/0.6 Python/3.5.2
+Hello world
+'''
